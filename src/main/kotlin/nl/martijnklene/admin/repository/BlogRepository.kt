@@ -21,6 +21,9 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
         return this.jdbcTemplate.queryForObject(
             "select * from blog_post where id = ?"
         ) { it, _ ->
+            if (it == null) {
+                return@queryForObject null
+            }
             mapResultToBlog(it)
         }
     }
