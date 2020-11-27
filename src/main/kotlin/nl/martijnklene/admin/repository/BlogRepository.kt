@@ -19,7 +19,8 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
 
     fun findSingleBlogPost(id: UUID): Blog? {
         return this.jdbcTemplate.queryForObject(
-            "select * from blog_post where id = ?"
+            "select * from blog_post where id = ?",
+            arrayOf(id)
         ) { it, _ ->
             if (it == null) {
                 return@queryForObject null
