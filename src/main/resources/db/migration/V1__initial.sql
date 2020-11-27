@@ -1,4 +1,4 @@
-create table blog.blog_post
+create table blog_post
 (
 	id uuid,
 	title varchar,
@@ -10,8 +10,8 @@ create table blog.blog_post
 );
 
 create unique index blog_post_id_uindex
-	on blog.blog_post (id);
+	on blog_post (id);
 
-alter table blog.blog_post
+alter table blog_post
 	add constraint blog_post_pk
 		primary key (id);
