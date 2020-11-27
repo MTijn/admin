@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/blog
+    username: postgres
+    password: 1234
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: <client-id>
+            client-secret: <secret>
+        provider:
+          keycloak:
+            issuer-uri: https://login.martijnklene.nl/auth/realms/blog
