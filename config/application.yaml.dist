@@ -8,8 +8,8 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: <<client-id>>
-            client-secret: <<client-secret>>
+            client-id: <<id>>
+            client-secret: <<secret>>
         provider:
           keycloak:
             issuer-uri: https://login.martijnklene.nl/auth/realms/blog
