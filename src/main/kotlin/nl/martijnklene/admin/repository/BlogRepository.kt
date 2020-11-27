@@ -18,8 +18,8 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
                 it.getString("content"),
                 it.getString("tags"),
                 it.getString("author"),
-                it.getTimestamp("published_at").toLocalDateTime().atZone(ZoneId.of("Europe/Amsterdam")),
-                it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("Europe/Amsterdam"))
+                it.getTimestamp("published_at").toLocalDateTime().atZone(ZoneId.of("UTC")),
+                it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC"))
             )
         }
     }
