@@ -1,6 +1,7 @@
 package nl.martijnklene.admin.repository
 
 import nl.martijnklene.admin.entity.Blog
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
@@ -22,10 +23,11 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
             "select * from blog_post where id = ?",
             arrayOf(id)
         ) { it, _ ->
-            if (it == null) {
+            try {
+                mapResultToBlog(it)
+            } catch (noResultException: EmptyResultDataAccessException) {
                 return@queryForObject null
             }
-            mapResultToBlog(it)
         }
     }
 
