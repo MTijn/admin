@@ -8,6 +8,7 @@ spring:
       client:
         registration:
           keycloak:
+            scope: openid, profile
             client-id: <<client-id>>
             client-secret: <<client-secret>>
         provider:

@@ -12,7 +12,7 @@ import java.util.*
 class RestController(private val blogRepository: BlogRepository) {
     @GetMapping("v1/blog-posts")
     fun returnAll(): ResponseEntity<Collection<Blog>> {
-        return ResponseEntity.ok().body(this.blogRepository.findBlogPosts())
+        return ResponseEntity.ok().body(this.blogRepository.findBlogPosts().filter { it.publishedAt != null })
     }
 
     @GetMapping("v1/blog-posts/{id}")
@@ -26,7 +26,8 @@ class RestController(private val blogRepository: BlogRepository) {
     fun lastPublishedBlog(): ResponseEntity<Any> {
         val blogPosts = this.blogRepository.findBlogPosts().filter {
             it.publishedAt != null
-        }.sortedBy { it.createdAt }.asReversed()
+        }.sortedBy { it.createdAt }.asReversed().firstOrNull()
+
         return ResponseEntity.ok().body(blogPosts)
     }
 }
