@@ -12,7 +12,7 @@ import java.util.*
 class BlogRepository(val jdbcTemplate: JdbcTemplate) {
     fun findBlogPosts(): Collection<Blog> {
         return this.jdbcTemplate.query(
-            "select * from blog_post"
+            "select * from blog_post order by created_at"
         ) { it, _ ->
             mapResultToBlog(it)
         }
@@ -37,8 +37,8 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
         it.getString("content"),
         it.getString("tags"),
         it.getString("author"),
-        it.getTimestamp("published_at")?.toLocalDateTime()?.atZone(ZoneId.of("UTC")),
-        it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC"))
+        it.getTimestamp("published_at")?.toLocalDateTime()?.atZone(ZoneId.of("Europe/Amsterdam")),
+        it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("Europe/Amsterdam"))
     )
 
     fun insert(blog: Blog) {
@@ -49,8 +49,8 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
             blog.content,
             blog.tags,
             blog.author,
-            blog.publishedAt?.toEpochSecond(),
-            blog.createdAt.toEpochSecond()
+            blog.publishedAt?.toInstant(),
+            blog.createdAt.toInstant()
         )
     }
 
@@ -61,7 +61,7 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
             blog.content,
             blog.tags,
             blog.author,
-            blog.publishedAt?.toEpochSecond(),
+            blog.publishedAt?.toInstant(),
             blog.id
         )
     }
