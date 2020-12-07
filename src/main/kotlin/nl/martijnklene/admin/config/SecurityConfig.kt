@@ -10,7 +10,7 @@ class SecurityConfig {
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         http.authorizeExchange { exchanges ->
-            exchanges.pathMatchers("/v1/**", "/favicon.ico").permitAll()
+            exchanges.pathMatchers("/v1/**", "/admin.css", "/favicon.ico").permitAll()
             .anyExchange().authenticated()
         }.oauth2Login()
         return http.build()
