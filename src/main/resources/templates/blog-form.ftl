@@ -18,15 +18,15 @@
             <form action="/blog-posts" method="post">
                 <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title">
+                    <input type="text" class="form-control" id="title" name="title" value="${blogPost.title}">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="content">Content</label>
-                    <textarea class="form-control" id="content" name="content"></textarea>
+                    <textarea class="form-control" id="content" name="content">${blogPost.content}</textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="tags">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags">
+                    <input type="text" class="form-control" id="tags" name="tags" value="${blogPost.tags}">
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="published" id="published">

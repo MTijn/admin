@@ -65,4 +65,11 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
             blog.id
         )
     }
+
+    fun delete(blog: Blog) {
+        jdbcTemplate.update(
+            "delete from blog_post where id = ?",
+            blog.id
+        )
+    }
 }

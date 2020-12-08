@@ -3,10 +3,13 @@ package nl.martijnklene.admin.http.controller
 import nl.martijnklene.admin.entity.Blog
 import nl.martijnklene.admin.http.model.BlogPostForm
 import nl.martijnklene.admin.repository.BlogRepository
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.view.RedirectView
 import java.time.ZonedDateTime
@@ -28,7 +31,7 @@ class BlogPostsController(
     }
 
     @GetMapping("/blog-posts/edit/{identifier}")
-    fun form(identifier: String, modelMap: ModelMap): Any {
+    fun form(@PathVariable identifier: String, modelMap: ModelMap): Any {
         val blogPost = blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/")
         modelMap.addAttribute("blogPost", blogPost)
         return "blog-form"
@@ -47,5 +50,13 @@ class BlogPostsController(
         )
         blogRepository.insert(blogPost)
         return RedirectView("/blog-posts")
+    }
+
+    @DeleteMapping("/blog-posts/{identifier}")
+    fun delete(@PathVariable identifier: String): ResponseEntity<Any> {
+        val blogPost = blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return ResponseEntity.notFound().build()
+
+        blogRepository.delete(blogPost)
+        return ResponseEntity.noContent().build()
     }
 }
