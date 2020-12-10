@@ -13,16 +13,7 @@
             $("#exampleModal").on("show.bs.modal", function (event) {
                 let id = $(event.relatedTarget).data("id");
                 $("#delete").on("click", function (event) {
-                    $.ajax({
-                        type: "delete",
-                        url: "/blog-posts/" + id,
-                        success: function () {
-                            $("#" + id).remove();
-                        },
-                        error: function () {
-                            alert("Could not delete " + id)
-                        }
-                    })
+                    location.replace("/blog-posts/delete/" + id)
                 });
             });
         });

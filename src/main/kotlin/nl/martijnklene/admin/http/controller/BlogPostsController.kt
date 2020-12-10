@@ -52,11 +52,30 @@ class BlogPostsController(
         return RedirectView("/blog-posts")
     }
 
-    @DeleteMapping("/blog-posts/{identifier}")
-    fun delete(@PathVariable identifier: String): ResponseEntity<Any> {
-        val blogPost = blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return ResponseEntity.notFound().build()
+    @PostMapping("/blog-posts/edit/{identifier}")
+    fun edit(@PathVariable identifier: String, @ModelAttribute form: BlogPostForm): RedirectView {
+        val blogPost =
+            blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/blog-posts")
+
+        val editedBlog = blogPost.copy(
+            id = blogPost.id,
+            title = form.title,
+            content = form.content,
+            tags = form.tags,
+            author = blogPost.author,
+            publishedAt = if (form.published) ZonedDateTime.now() else null,
+            createdAt = blogPost.createdAt
+        )
+        blogRepository.update(editedBlog)
+        return RedirectView("/blog-posts")
+    }
+
+    @GetMapping("/blog-posts/delete/{identifier}")
+    fun delete(@PathVariable identifier: String): RedirectView {
+        val blogPost =
+            blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/blog-posts")
 
         blogRepository.delete(blogPost)
-        return ResponseEntity.noContent().build()
+        return RedirectView("/blog-posts")
     }
 }

@@ -3,13 +3,15 @@ package nl.martijnklene.admin.repository
 import nl.martijnklene.admin.entity.Blog
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.time.ZoneId
 import java.util.*
 
 @Repository
-class BlogRepository(val jdbcTemplate: JdbcTemplate) {
+class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun findBlogPosts(): Collection<Blog> {
         return this.jdbcTemplate.query(
             "select * from blog_post order by created_at"
@@ -19,16 +21,13 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
     }
 
     fun findSingleBlogPost(id: UUID): Blog? {
-        try {
-            return this.jdbcTemplate.queryForObject(
-                "select * from blog_post where id = ?",
-                arrayOf(id)
-            ) { it, _ ->
-                mapResultToBlog(it)
-            }
-        } catch (exception: EmptyResultDataAccessException) {
-            return null
-        }
+        val parameterSource = MapSqlParameterSource().addValue("id", id)
+        return this.jdbcTemplate.query(
+            "select * from blog_post where id = :id",
+            parameterSource
+        ) { it, _ ->
+            return@query mapResultToBlog(it)
+        }.singleOrNull()
     }
 
     private fun mapResultToBlog(it: ResultSet) = Blog(
@@ -42,34 +41,40 @@ class BlogRepository(val jdbcTemplate: JdbcTemplate) {
     )
 
     fun insert(blog: Blog) {
+        val parameterSource = MapSqlParameterSource()
+            .addValue("id", blog.id)
+            .addValue("title", blog.title)
+            .addValue("content", blog.content)
+            .addValue("tags", blog.tags)
+            .addValue("author", blog.author)
+            .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
+            .addValue("created_at", blog.createdAt.toOffsetDateTime())
+
         jdbcTemplate.update(
-            "insert into blog_post (id, title, content, tags, author, published_at, created_at) values (?, ?, ?, ?, ?, ?, ?)",
-            blog.id,
-            blog.title,
-            blog.content,
-            blog.tags,
-            blog.author,
-            blog.publishedAt?.toInstant(),
-            blog.createdAt.toInstant()
+            "insert into blog_post (id, title, content, tags, author, published_at, created_at)" +
+                    " values (:id, :title, :content, :tags, :author, :published_at, :created_at)",
+            parameterSource
         )
     }
 
     fun update(blog: Blog) {
+        val parameterSource = MapSqlParameterSource()
+            .addValue("title", blog.title)
+            .addValue("content", blog.content)
+            .addValue("tags", blog.tags)
+            .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
+            .addValue("id", blog.id)
         jdbcTemplate.update(
-            "update blog_post set title = ?, content = ?, tags = ?, author = ?, published_at = ? where id = ?",
-            blog.title,
-            blog.content,
-            blog.tags,
-            blog.author,
-            blog.publishedAt?.toInstant(),
-            blog.id
+            "update blog_post set title = :title, content = :content, tags = :tags, published_at = :published_at where id = :id",
+            parameterSource
         )
     }
 
     fun delete(blog: Blog) {
+        val parameterSource = MapSqlParameterSource().addValue("id", blog.id)
         jdbcTemplate.update(
-            "delete from blog_post where id = ?",
-            blog.id
+            "delete from blog_post where id = :id",
+            parameterSource
         )
     }
 }

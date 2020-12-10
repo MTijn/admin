@@ -15,18 +15,26 @@
         <#include "sidebar.ftl">
         <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
             <h1>New blog post</h1>
-            <form action="/blog-posts" method="post">
+            <form
+                    <#if blogPost??>
+                        action="/blog-posts/edit/${blogPost.id}"
+                    <#else>
+                        action="/blog-posts"
+                    </#if>
+
+                    method="post"
+            >
                 <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="${blogPost.title}">
+                    <input type="text" class="form-control" id="title" name="title" <#if blogPost??>value="${blogPost.title}"</#if>>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="content">Content</label>
-                    <textarea class="form-control" id="content" name="content">${blogPost.content}</textarea>
+                    <textarea class="form-control" id="content" name="content"><#if blogPost??>${blogPost.content}</#if></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="tags">Tags</label>
-                    <input type="text" class="form-control" id="tags" name="tags" value="${blogPost.tags}">
+                    <input type="text" class="form-control" id="tags" name="tags" <#if blogPost??>value="${blogPost.tags}"</#if>>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="published" id="published">
