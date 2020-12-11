@@ -17,16 +17,16 @@ jobs:
       - name: Maven Package
         run: mvn -B clean package -DskipTests
       - name: Upload jar for job 1
-          uses: actions/upload-artifact@v1
-          with:
-            name: jarpack
-            path: ./target
+        uses: actions/upload-artifact@v1
+        with:
+          name: jarpack
+          path: ./target
 
 
   docker:
     name: Publish - Docker Hub
     runs-on: ubuntu-18.04
-    needs: [test]
+    needs: [Build]
     env:
       REPO: ${{ secrets.DOCKER_REPO }}
     steps:
