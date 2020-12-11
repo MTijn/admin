@@ -31,13 +31,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 15
-      - name: Login to Docker Hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }}
-          -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
-      - name: Build Docker image
-        run: docker build -t $REPO:${{steps.tag.outputs.tag}} .
-      - name: Publish Docker image
-        run: docker push $REPO
+    - name: Build and Push Docker Image
+        uses: docker/build-push-action@v1
+        with:
+          path: .
+          dockerfile: ./Dockerfile
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: hub.docker.com
+          repository: mtijnnl/admin
+          tags: ${{steps.tag.outputs.tag}}
