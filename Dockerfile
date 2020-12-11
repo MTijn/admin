@@ -3,8 +3,7 @@ FROM openjdk:15-alpine
 RUN addgroup -S bloggroup
 RUN adduser -S --disabled-password --no-create-home blog -G bloggroup
 
-ARG JAR_FILE
-ADD jarpack/${JAR_FILE} /app.jar
+COPY jarpack/*.jar /app.jar
 
 RUN chown blog:bloggroup /app.jar
 

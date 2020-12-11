@@ -51,5 +51,3 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: mtijnnl/admin
           tags: ${{steps.tag.outputs.tag}}
-          build-args: |
-            JAR_FILE=$GITHUB_WORKSPACE/jarpack/*.jar
