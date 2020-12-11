@@ -34,7 +34,7 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
-    - name: Build and Push Docker Image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v1
         with:
           path: .
