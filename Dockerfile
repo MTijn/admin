@@ -5,9 +5,7 @@ RUN adduser -S --disabled-password --no-create-home blog -G bloggroup
 
 VOLUME /tmp
 COPY jarpack/${JAR_FILE} app.jar
-COPY jarpack/libs libs
 RUN chown blog:bloggroup /app.jar
-RUN chown -R blog:bloggroup /libs
 
 USER blog
 EXPOSE 8080
