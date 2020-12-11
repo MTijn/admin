@@ -41,6 +41,5 @@ jobs:
           dockerfile: ./Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: hub.docker.com
           repository: mtijnnl/admin
           tags: ${{steps.tag.outputs.tag}}
