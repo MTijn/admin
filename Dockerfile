@@ -4,7 +4,7 @@ RUN addgroup -S bloggroup
 RUN adduser -S --disabled-password --no-create-home blog -G bloggroup
 
 ARG JAR_FILE
-ADD target/${JAR_FILE} /app.jar
+ADD jarpack/${JAR_FILE} /app.jar
 
 RUN chown blog:bloggroup /app.jar
 
