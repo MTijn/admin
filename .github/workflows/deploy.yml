@@ -16,8 +16,8 @@ jobs:
           java-version: 15
       - name: Maven Package
         run: mvn -B clean package -DskipTests
-      - name: Maven Verify
-        run: mvn -B clean verify
+      - name: Maven Test
+        run: mvn -B clean test
 
   docker:
     name: Publish - Docker Hub
