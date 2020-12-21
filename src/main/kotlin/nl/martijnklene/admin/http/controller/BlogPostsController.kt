@@ -3,10 +3,9 @@ package nl.martijnklene.admin.http.controller
 import nl.martijnklene.admin.entity.Blog
 import nl.martijnklene.admin.http.model.BlogPostForm
 import nl.martijnklene.admin.repository.BlogRepository
-import org.springframework.http.ResponseEntity
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
-import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -38,13 +37,13 @@ class BlogPostsController(
     }
 
     @PostMapping("/blog-posts")
-    fun post(@ModelAttribute form: BlogPostForm): RedirectView {
+    fun post(@ModelAttribute form: BlogPostForm, token: OAuth2AuthenticationToken): RedirectView {
         val blogPost = Blog(
             UUID.randomUUID(),
             form.title,
             form.content,
             form.tags,
-            "Martijn",
+            token.principal.attributes["name"] as String,
             if (form.published) ZonedDateTime.now() else null,
             ZonedDateTime.now()
         )
