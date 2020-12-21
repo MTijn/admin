@@ -10,7 +10,7 @@
     </parent>
     <groupId>nl.martijnklene</groupId>
     <artifactId>admin</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <name>Admin</name>
     <description>Administration service for my Blog</description>
 
@@ -124,6 +124,11 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 
 </project>
