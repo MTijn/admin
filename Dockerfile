@@ -1,4 +1,4 @@
-FROM openjdk:15-alpine
+FROM openjdk:17-slim-bullseye
 
 COPY jarpack/*.jar /app.jar
 
