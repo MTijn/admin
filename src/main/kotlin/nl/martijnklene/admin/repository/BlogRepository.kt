@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import java.sql.ResultSet
 import java.time.ZoneId
-import java.util.*
+import java.util.UUID
 
 @Repository
 class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
@@ -50,7 +50,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
         jdbcTemplate.update(
             "insert into blog_post (id, title, content, tags, author, published_at, created_at)" +
-                    " values (:id, :title, :content, :tags, :author, :published_at, :created_at)",
+                " values (:id, :title, :content, :tags, :author, :published_at, :created_at)",
             parameterSource
         )
     }

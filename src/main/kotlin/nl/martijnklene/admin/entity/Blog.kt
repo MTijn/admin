@@ -1,7 +1,7 @@
 package nl.martijnklene.admin.entity
 
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 
 data class Blog(
     val id: UUID,
