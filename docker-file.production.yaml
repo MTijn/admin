@@ -1,0 +1,24 @@
+version: "3.6"
+services:
+  blog:
+    image: mtijnnl/admin:0.2.2
+    networks:
+      - traefik_web
+    secrets:
+      - some_config
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.admin.rule=Host(``)
+        - traefik.http.routers.admin.entrypoints=https
+        - traefik.http.services.admin.loadbalancer.server.port=8080
+        - traefik.http.routers.admin.tls=true
+        - traefik.docker.network=traefik_web
+
+networks:
+  traefik_web:
+    external: true
+
+secrets:
+  some_config:
+    external: true
