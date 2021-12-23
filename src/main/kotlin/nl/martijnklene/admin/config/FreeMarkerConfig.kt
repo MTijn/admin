@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
 
 @Configuration
-class FreeMarkerConfig: BeanPostProcessor {
+class FreeMarkerConfig : BeanPostProcessor {
     @Throws(BeansException::class)
     override fun postProcessAfterInitialization(bean: Any, beanName: String): Any? {
         if (bean is FreeMarkerConfigurer) {

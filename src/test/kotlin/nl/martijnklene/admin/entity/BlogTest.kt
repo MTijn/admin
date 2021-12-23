@@ -1,9 +1,10 @@
 package nl.martijnklene.admin.entity
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertSame
 import org.junit.jupiter.api.Test
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 
 internal class BlogTest {
     @Test

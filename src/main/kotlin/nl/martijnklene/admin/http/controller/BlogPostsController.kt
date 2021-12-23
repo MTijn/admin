@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.servlet.view.RedirectView
 import java.time.ZonedDateTime
-import java.util.*
+import java.util.UUID
 
 @Controller
 class BlogPostsController(
