@@ -1,4 +1,4 @@
-FROM openjdk:17-slim-bullseye
+FROM eclipse-temurin:17-alpine
 
 COPY jarpack/*.jar /app.jar
 
