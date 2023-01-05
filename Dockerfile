@@ -1,5 +1,7 @@
 FROM eclipse-temurin:17-alpine
 
+RUN apk -U upgrade --ignore alpine-baselayout
+
 COPY jarpack/*.jar /app.jar
 
 EXPOSE 8080
