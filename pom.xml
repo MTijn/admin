@@ -10,7 +10,7 @@
     </parent>
     <groupId>nl.martijnklene</groupId>
     <artifactId>admin</artifactId>
-    <version>0.2.6</version>
+    <version>0.2.7</version>
     <name>Admin</name>
     <description>Administration service for my Blog</description>
 
