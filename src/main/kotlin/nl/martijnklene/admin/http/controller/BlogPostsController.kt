@@ -16,7 +16,7 @@ import java.util.UUID
 
 @Controller
 class BlogPostsController(
-    private val blogRepository: BlogRepository
+    private val blogRepository: BlogRepository,
 ) {
     @GetMapping("/blog-posts")
     fun overview(modelMap: ModelMap): String {
@@ -45,7 +45,7 @@ class BlogPostsController(
             form.tags,
             token.principal.attributes["name"] as String,
             if (form.published) ZonedDateTime.now() else null,
-            ZonedDateTime.now()
+            ZonedDateTime.now(),
         )
         blogRepository.insert(blogPost)
         return RedirectView("/blog-posts")
@@ -63,7 +63,7 @@ class BlogPostsController(
             tags = form.tags,
             author = blogPost.author,
             publishedAt = if (form.published) ZonedDateTime.now() else null,
-            createdAt = blogPost.createdAt
+            createdAt = blogPost.createdAt,
         )
         blogRepository.update(editedBlog)
         return RedirectView("/blog-posts")

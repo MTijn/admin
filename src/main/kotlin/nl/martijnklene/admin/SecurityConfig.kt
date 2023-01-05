@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
-
 @Configuration
 class SecurityConfig {
     @Bean
@@ -18,6 +17,7 @@ class SecurityConfig {
                 .requestMatchers("/v1/**")
         }
     }
+
     @Bean
     fun filterChain(http: HttpSecurity) {
         http

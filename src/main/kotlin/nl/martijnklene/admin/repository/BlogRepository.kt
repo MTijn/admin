@@ -12,7 +12,7 @@ import java.util.UUID
 class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     fun findBlogPosts(): Collection<Blog> {
         return this.jdbcTemplate.query(
-            "select * from blog_post order by created_at"
+            "select * from blog_post order by created_at",
         ) { it, _ ->
             mapResultToBlog(it)
         }
@@ -22,7 +22,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         val parameterSource = MapSqlParameterSource().addValue("id", id)
         return this.jdbcTemplate.query(
             "select * from blog_post where id = :id",
-            parameterSource
+            parameterSource,
         ) { it, _ ->
             return@query mapResultToBlog(it)
         }.singleOrNull()
@@ -35,7 +35,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         it.getString("tags"),
         it.getString("author"),
         it.getTimestamp("published_at")?.toLocalDateTime()?.atZone(ZoneId.of("UTC")),
-        it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC"))
+        it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC")),
     )
 
     fun insert(blog: Blog) {
@@ -51,7 +51,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         jdbcTemplate.update(
             "insert into blog_post (id, title, content, tags, author, published_at, created_at)" +
                 " values (:id, :title, :content, :tags, :author, :published_at, :created_at)",
-            parameterSource
+            parameterSource,
         )
     }
 
@@ -64,7 +64,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             .addValue("id", blog.id)
         jdbcTemplate.update(
             "update blog_post set title = :title, content = :content, tags = :tags, published_at = :published_at where id = :id",
-            parameterSource
+            parameterSource,
         )
     }
 
@@ -72,7 +72,7 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         val parameterSource = MapSqlParameterSource().addValue("id", blog.id)
         jdbcTemplate.update(
             "delete from blog_post where id = :id",
-            parameterSource
+            parameterSource,
         )
     }
 }

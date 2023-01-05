@@ -18,7 +18,7 @@ internal class BlogTest {
             "tags",
             "Martijn",
             dateTime,
-            dateTime
+            dateTime,
         )
 
         assertSame(uuid, blog.id)

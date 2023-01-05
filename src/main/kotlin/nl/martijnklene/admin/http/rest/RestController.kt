@@ -17,7 +17,7 @@ class RestController(private val blogRepository: BlogRepository) {
                 .findBlogPosts()
                 .filter { it.publishedAt != null }
                 .sortedBy { it.publishedAt }
-                .asReversed()
+                .asReversed(),
         )
     }
 

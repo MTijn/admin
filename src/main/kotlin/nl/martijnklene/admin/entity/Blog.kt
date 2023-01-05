@@ -10,5 +10,5 @@ data class Blog(
     val tags: String,
     val author: String,
     val publishedAt: ZonedDateTime?,
-    val createdAt: ZonedDateTime
+    val createdAt: ZonedDateTime,
 )

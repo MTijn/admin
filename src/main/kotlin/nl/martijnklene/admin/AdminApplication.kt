@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySources
 @SpringBootApplication
 @PropertySources(
     PropertySource("classpath:application.yaml"),
-    PropertySource("file:/run/secrets/blog_config.yaml", ignoreResourceNotFound = true)
+    PropertySource("file:/run/secrets/blog_config.yaml", ignoreResourceNotFound = true),
 )
 class AdminApplication
 
