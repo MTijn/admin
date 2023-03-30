@@ -8,7 +8,6 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.web.filter.ForwardedHeaderFilter
 import org.springframework.web.servlet.function.RouterFunctions.resources
 
-
 @Configuration
 class WebConfig {
     @Bean
