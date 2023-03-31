@@ -52,7 +52,6 @@
                     <label class="form-check-label" for="published">Published</label>
                 </div>
                 <div class="btn-group">
-                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
                     <button class="btn btn-primary" type="submit">Save</button>
                 </div>
             </form>
