@@ -16,6 +16,5 @@ spring:
             issuer-uri: https://login.martijnklene.nl/auth/realms/blog
 logging:
   level:
-    org.springframework.web: DEBUG
-    guru.springframework.controllers: DEBUG
-    org.hibernate: DEBUG
+    org.springframework.web: INFO
+    guru.springframework.controllers: INFO
