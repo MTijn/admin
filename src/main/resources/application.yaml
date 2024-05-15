@@ -1,19 +1,21 @@
 spring:
+  config:
+    import: "optional:configtree:/run/secrets/"
   datasource:
-    url: jdbc:postgresql://localhost:5432/blog
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://${app.database.host:localhost}:5432/${app.database.schema}
+    username: ${app.database.user:user}
+    password: ${app.database.password:password}
   security:
     oauth2:
       client:
         registration:
           keycloak:
             scope: openid, profile
-            client-id: <<client-id>>
-            client-secret: <<client-secret>>
+            client-id: ${app.keycloak.client-id:client-id}
+            client-secret: ${app.keycloak.client-secret:client-secret}
         provider:
           keycloak:
-            issuer-uri: https://login.martijnklene.nl/auth/realms/blog
+            issuer-uri: ${app.keycloak.issuer-uri:https://login.martijnklene.nl/auth/realms/blog}
 logging:
   level:
     org.springframework.web: INFO
