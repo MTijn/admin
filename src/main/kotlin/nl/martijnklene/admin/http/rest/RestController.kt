@@ -9,30 +9,39 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-class RestController(private val blogRepository: BlogRepository) {
+class RestController(
+    private val blogRepository: BlogRepository,
+) {
     @GetMapping("v1/blog-posts")
-    fun returnAll(): ResponseEntity<Collection<Blog>> {
-        return ResponseEntity.ok().body(
+    fun returnAll(): ResponseEntity<Collection<Blog>> =
+        ResponseEntity.ok().body(
             this.blogRepository
                 .findBlogPosts()
                 .filter { it.publishedAt != null }
                 .sortedBy { it.publishedAt }
                 .asReversed(),
         )
-    }
 
     @GetMapping("v1/blog-posts/{id}")
-    fun singleBlogPost(@PathVariable id: String): ResponseEntity<Any> {
-        val blogPost = this.blogRepository.findSingleBlogPost(UUID.fromString(id))
-            ?: return ResponseEntity.notFound().build()
+    fun singleBlogPost(
+        @PathVariable id: String,
+    ): ResponseEntity<Any> {
+        val blogPost =
+            this.blogRepository.findSingleBlogPost(UUID.fromString(id))
+                ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok().body(blogPost)
     }
 
     @GetMapping("v1/blog-posts/last")
     fun lastPublishedBlog(): ResponseEntity<Any> {
-        val blogPosts = this.blogRepository.findBlogPosts().filter {
-            it.publishedAt != null
-        }.sortedBy { it.publishedAt }.asReversed().firstOrNull()
+        val blogPosts =
+            this.blogRepository
+                .findBlogPosts()
+                .filter {
+                    it.publishedAt != null
+                }.sortedBy { it.publishedAt }
+                .asReversed()
+                .firstOrNull()
 
         return ResponseEntity.ok().body(blogPosts)
     }

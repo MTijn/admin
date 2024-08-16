@@ -13,7 +13,8 @@ class TemplateConfig : WebMvcConfigurer {
     }
 
     @Bean
-    fun freeMarkerConfigurer() = FreeMarkerConfigurer().apply {
-        setTemplateLoaderPath("classpath:/templates")
-    }
+    fun freeMarkerConfigurer() =
+        FreeMarkerConfigurer().apply {
+            setTemplateLoaderPath("classpath:/templates")
+        }
 }

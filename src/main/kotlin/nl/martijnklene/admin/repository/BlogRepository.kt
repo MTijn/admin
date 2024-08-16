@@ -9,44 +9,48 @@ import java.time.ZoneId
 import java.util.UUID
 
 @Repository
-class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
-    fun findBlogPosts(): Collection<Blog> {
-        return this.jdbcTemplate.query(
+class BlogRepository(
+    private val jdbcTemplate: NamedParameterJdbcTemplate,
+) {
+    fun findBlogPosts(): Collection<Blog> =
+        this.jdbcTemplate.query(
             "select * from blog_post order by created_at",
         ) { it, _ ->
             mapResultToBlog(it)
         }
-    }
 
     fun findSingleBlogPost(id: UUID): Blog? {
         val parameterSource = MapSqlParameterSource().addValue("id", id)
-        return this.jdbcTemplate.query(
-            "select * from blog_post where id = :id",
-            parameterSource,
-        ) { it, _ ->
-            return@query mapResultToBlog(it)
-        }.singleOrNull()
+        return this.jdbcTemplate
+            .query(
+                "select * from blog_post where id = :id",
+                parameterSource,
+            ) { it, _ ->
+                return@query mapResultToBlog(it)
+            }.singleOrNull()
     }
 
-    private fun mapResultToBlog(it: ResultSet) = Blog(
-        UUID.fromString(it.getString("id")),
-        it.getString("title"),
-        it.getString("content"),
-        it.getString("tags"),
-        it.getString("author"),
-        it.getTimestamp("published_at")?.toLocalDateTime()?.atZone(ZoneId.of("UTC")),
-        it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC")),
-    )
+    private fun mapResultToBlog(it: ResultSet) =
+        Blog(
+            UUID.fromString(it.getString("id")),
+            it.getString("title"),
+            it.getString("content"),
+            it.getString("tags"),
+            it.getString("author"),
+            it.getTimestamp("published_at")?.toLocalDateTime()?.atZone(ZoneId.of("UTC")),
+            it.getTimestamp("created_at").toLocalDateTime().atZone(ZoneId.of("UTC")),
+        )
 
     fun insert(blog: Blog) {
-        val parameterSource = MapSqlParameterSource()
-            .addValue("id", blog.id)
-            .addValue("title", blog.title)
-            .addValue("content", blog.content)
-            .addValue("tags", blog.tags)
-            .addValue("author", blog.author)
-            .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
-            .addValue("created_at", blog.createdAt.toOffsetDateTime())
+        val parameterSource =
+            MapSqlParameterSource()
+                .addValue("id", blog.id)
+                .addValue("title", blog.title)
+                .addValue("content", blog.content)
+                .addValue("tags", blog.tags)
+                .addValue("author", blog.author)
+                .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
+                .addValue("created_at", blog.createdAt.toOffsetDateTime())
 
         jdbcTemplate.update(
             "insert into blog_post (id, title, content, tags, author, published_at, created_at)" +
@@ -56,12 +60,13 @@ class BlogRepository(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     fun update(blog: Blog) {
-        val parameterSource = MapSqlParameterSource()
-            .addValue("title", blog.title)
-            .addValue("content", blog.content)
-            .addValue("tags", blog.tags)
-            .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
-            .addValue("id", blog.id)
+        val parameterSource =
+            MapSqlParameterSource()
+                .addValue("title", blog.title)
+                .addValue("content", blog.content)
+                .addValue("tags", blog.tags)
+                .addValue("published_at", blog.publishedAt?.toOffsetDateTime())
+                .addValue("id", blog.id)
         jdbcTemplate.update(
             "update blog_post set title = :title, content = :content, tags = :tags, published_at = :published_at where id = :id",
             parameterSource,

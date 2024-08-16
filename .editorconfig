@@ -9,6 +9,8 @@ indent_style = space
 [*.{kt,kts}]
 # possible values: number (e.g. 2), "unset" (makes ktlint ignore indentation completely)
 indent_size = 4
+ktlint_standard_import-ordering = disabled
+ktlint_standard_no-wildcard-imports = disabled
 
 [*.json]
 indent_size = 2

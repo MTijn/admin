@@ -25,52 +25,63 @@ class BlogPostsController(
     }
 
     @GetMapping("/blog-posts/new")
-    fun new(): String {
-        return "blog-form"
-    }
+    fun new(): String = "blog-form"
 
     @GetMapping("/blog-posts/edit/{identifier}")
-    fun form(@PathVariable identifier: String, modelMap: ModelMap): Any {
+    fun form(
+        @PathVariable identifier: String,
+        modelMap: ModelMap,
+    ): Any {
         val blogPost = blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/")
         modelMap.addAttribute("blogPost", blogPost)
         return "blog-form"
     }
 
     @PostMapping("/blog-posts")
-    fun post(@ModelAttribute form: BlogPostForm, token: OAuth2AuthenticationToken): RedirectView {
-        val blogPost = Blog(
-            UUID.randomUUID(),
-            form.title,
-            form.content,
-            form.tags,
-            token.principal.attributes["name"] as String,
-            if (form.published) ZonedDateTime.now() else null,
-            ZonedDateTime.now(),
-        )
+    fun post(
+        @ModelAttribute form: BlogPostForm,
+        token: OAuth2AuthenticationToken,
+    ): RedirectView {
+        val blogPost =
+            Blog(
+                UUID.randomUUID(),
+                form.title,
+                form.content,
+                form.tags,
+                token.principal.attributes["name"] as String,
+                if (form.published) ZonedDateTime.now() else null,
+                ZonedDateTime.now(),
+            )
         blogRepository.insert(blogPost)
         return RedirectView("/blog-posts")
     }
 
     @PostMapping("/blog-posts/edit/{identifier}")
-    fun edit(@PathVariable identifier: String, @ModelAttribute form: BlogPostForm): RedirectView {
+    fun edit(
+        @PathVariable identifier: String,
+        @ModelAttribute form: BlogPostForm,
+    ): RedirectView {
         val blogPost =
             blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/blog-posts")
 
-        val editedBlog = blogPost.copy(
-            id = blogPost.id,
-            title = form.title,
-            content = form.content,
-            tags = form.tags,
-            author = blogPost.author,
-            publishedAt = if (form.published) ZonedDateTime.now() else null,
-            createdAt = blogPost.createdAt,
-        )
+        val editedBlog =
+            blogPost.copy(
+                id = blogPost.id,
+                title = form.title,
+                content = form.content,
+                tags = form.tags,
+                author = blogPost.author,
+                publishedAt = if (form.published) ZonedDateTime.now() else null,
+                createdAt = blogPost.createdAt,
+            )
         blogRepository.update(editedBlog)
         return RedirectView("/blog-posts")
     }
 
     @GetMapping("/blog-posts/delete/{identifier}")
-    fun delete(@PathVariable identifier: String): RedirectView {
+    fun delete(
+        @PathVariable identifier: String,
+    ): RedirectView {
         val blogPost =
             blogRepository.findSingleBlogPost(UUID.fromString(identifier)) ?: return RedirectView("/blog-posts")
 

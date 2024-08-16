@@ -11,15 +11,16 @@ internal class BlogTest {
     fun `data stays the same`() {
         val uuid = UUID.randomUUID()
         val dateTime = ZonedDateTime.now()
-        val blog = Blog(
-            uuid,
-            "title",
-            "content",
-            "tags",
-            "Martijn",
-            dateTime,
-            dateTime,
-        )
+        val blog =
+            Blog(
+                uuid,
+                "title",
+                "content",
+                "tags",
+                "Martijn",
+                dateTime,
+                dateTime,
+            )
 
         assertSame(uuid, blog.id)
         assertEquals("title", blog.title)

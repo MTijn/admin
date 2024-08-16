@@ -11,13 +11,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 @Configuration
 class SecurityConfig {
     @Bean
-    fun webSecurityCustomizer(): WebSecurityCustomizer? {
-        return WebSecurityCustomizer { web: WebSecurity ->
+    fun webSecurityCustomizer(): WebSecurityCustomizer? =
+        WebSecurityCustomizer { web: WebSecurity ->
             web
                 .ignoring()
                 .requestMatchers("/v1/**")
         }
-    }
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -25,8 +24,10 @@ class SecurityConfig {
             .csrf()
             .disable()
             .authorizeHttpRequests()
-            .requestMatchers("/v1/**").permitAll()
-            .requestMatchers("/**").authenticated()
+            .requestMatchers("/v1/**")
+            .permitAll()
+            .requestMatchers("/**")
+            .authenticated()
             .and()
             .oauth2Login()
             .and()
