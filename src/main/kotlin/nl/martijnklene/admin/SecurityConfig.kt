@@ -16,26 +16,27 @@ class SecurityConfig {
             web
                 .ignoring()
                 .requestMatchers("/v1/**")
+                .requestMatchers("/sitemap.xml")
         }
 
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .csrf()
-            .disable()
-            .authorizeHttpRequests()
-            .requestMatchers("/v1/**")
-            .permitAll()
-            .requestMatchers("/**")
-            .authenticated()
-            .and()
-            .oauth2Login()
-            .and()
-            .logout()
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .deleteCookies("JSESSIONID")
-            .logoutRequestMatcher(AntPathRequestMatcher("/logout"))
+            .csrf { csrf -> csrf.disable() }
+            .authorizeHttpRequests { authorize ->
+                authorize
+                    .requestMatchers("/v1/**").permitAll()
+                    .requestMatchers("/sitemap.xml").permitAll()
+                    .requestMatchers("/**").authenticated()
+            }
+            .oauth2Login {}
+            .logout { logout ->
+                logout
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .deleteCookies("JSESSIONID")
+                    .logoutRequestMatcher(AntPathRequestMatcher("/logout"))
+            }
         return http.build()
     }
 }
