@@ -44,7 +44,7 @@ class ObjectMapperConfiguration {
     fun xmlMapper(): XmlMapper {
         val mapper = XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) })
 
-        mapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
+        mapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true)
         mapper.registerModule(KotlinModule.Builder().build())
         return mapper
     }

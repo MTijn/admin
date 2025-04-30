@@ -6,5 +6,5 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 @JsonRootName("urls", namespace = "http://www.sitemaps.org/schemas/sitemap/0.9")
 class Urls(
     @JacksonXmlElementWrapper(useWrapping = false)
-    val url: List<Url>
+    val url: List<Url>,
 )

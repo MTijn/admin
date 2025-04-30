@@ -22,20 +22,22 @@ class BlogPostsToUrlTransformer {
                 loc = uri.scheme + "://" + uri.authority,
                 lastmod = lastPublishedAt,
                 changefreq = "monthly",
-            )
+            ),
         )
-        urls.add(Url(
-            loc = uri.scheme + "://" + uri.authority + "/archive",
-            lastmod = lastPublishedAt,
-            changefreq = "monthly",
-        ))
+        urls.add(
+            Url(
+                loc = uri.scheme + "://" + uri.authority + "/archive",
+                lastmod = lastPublishedAt,
+                changefreq = "monthly",
+            ),
+        )
         blogPosts.map {
             urls.add(
                 Url(
                     loc = uri.scheme + "://" + uri.authority + "/detail/" + it.id,
                     lastmod = it.publishedAt!!.toLocalDate(),
                     changefreq = "monthly",
-                )
+                ),
             )
         }
 

@@ -13,16 +13,18 @@ class SitemapController(
 ) {
     @GetMapping(
         "/sitemap.xml",
-        produces = ["application/xml"]
+        produces = ["application/xml"],
     )
     fun sitemap(): ResponseEntity<Any> {
-        val blogPosts = blogRepository.findBlogPosts()
-            .filter { it.publishedAt != null }
-            .sortedBy { it.publishedAt }
-            .asReversed()
+        val blogPosts =
+            blogRepository
+                .findBlogPosts()
+                .filter { it.publishedAt != null }
+                .sortedBy { it.publishedAt }
+                .asReversed()
 
         return ResponseEntity.ok(
-            blogPostsToUrlTransformer.transFormBlogPostsToUrls(blogPosts)
+            blogPostsToUrlTransformer.transFormBlogPostsToUrls(blogPosts),
         )
     }
 }
