@@ -19,14 +19,14 @@ class BlogPostsToUrlTransformer {
         val urls = mutableListOf<Url>()
         urls.add(
             Url(
-                loc = uri.scheme + "://" + uri.authority,
+                loc = uri.scheme + "://martijnklene.nl",
                 lastmod = lastPublishedAt,
                 changefreq = "monthly",
             ),
         )
         urls.add(
             Url(
-                loc = uri.scheme + "://" + uri.authority + "/archive",
+                loc = uri.scheme + "://martijnklene.nl/archive",
                 lastmod = lastPublishedAt,
                 changefreq = "monthly",
             ),
@@ -34,7 +34,7 @@ class BlogPostsToUrlTransformer {
         blogPosts.map {
             urls.add(
                 Url(
-                    loc = uri.scheme + "://" + uri.authority + "/detail/" + it.id,
+                    loc = uri.scheme + "://martijnklene.nl/detail/" + it.id,
                     lastmod = it.publishedAt!!.toLocalDate(),
                     changefreq = "monthly",
                 ),
