@@ -3,9 +3,6 @@ package nl.martijnklene.admin.config
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule
-import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer
@@ -37,15 +34,6 @@ class ObjectMapperConfiguration {
         mapper.registerModule(javaTimeModule)
         mapper.registerModule(KotlinModule.Builder().build())
 
-        return mapper
-    }
-
-    @Bean
-    fun xmlMapper(): XmlMapper {
-        val mapper = XmlMapper(JacksonXmlModule().apply { setDefaultUseWrapper(false) })
-
-        mapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true)
-        mapper.registerModule(KotlinModule.Builder().build())
         return mapper
     }
 }
